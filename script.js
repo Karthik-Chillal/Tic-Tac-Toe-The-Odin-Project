@@ -1,11 +1,41 @@
-function Player(name, symbol){
-  return {name, symbol};
+function Player(name, marker){
+  return {name, marker};
 }
-const gameArr=[
-  ['O', '.', '.'],
-  ['.', 'X', '.'],
-  ['.', '.', 'O']
-];
+
+let gameBoard =  (function (){
+  let board =['.', '.', '.', '.', '.', '.', '.', '.', '.', ];
+  const mark = (marker, index)=>{
+    if(board[index]==='.'){
+      board[index]= marker;
+      return true;
+    }
+    else{
+      return false;
+    }
+  };
+
+  const getBoard = ()=>{
+    return board;
+  }
+
+  const reset = ()=>{
+    board =['.', '.', '.', '.', '.', '.', '.', '.', '.', ];
+  };
+
+  const isFull = ()=>{
+    return board.every(cell=>cell!== '.');
+  }
+
+
+  return {
+    getBoard,
+    reset,
+    isFull,
+    mark
+  };
+
+})();
+
 function check(gameArr, turn){
   for(let i=0; i<3; i++){
     let ocnt=0;
@@ -67,4 +97,4 @@ function check(gameArr, turn){
 }
 
 
-console.log(check(gameArr, 5));
+// console.log(check(gameArr, 5));
