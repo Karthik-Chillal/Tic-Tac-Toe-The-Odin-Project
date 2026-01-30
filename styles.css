@@ -5,10 +5,12 @@
 }
 body{
   background-color: black;
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: Questrial;
 }
 
 
@@ -39,6 +41,10 @@ body{
 .cell{
   /* border: 1px solid white; */
   background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
 }
 
 

@@ -104,6 +104,11 @@ const gameController = (() =>{
   };
 
 
+  const gameDone = ()=>{
+    return isGameOver;
+  }
+
+
 
   const playRound = (index)=>{
     console.log(`current Player: ${activePlayer.name}`);
@@ -139,7 +144,8 @@ const gameController = (() =>{
   return{
     playRound,
     checkWinner,
-    getActivePlayer
+    getActivePlayer,
+    gameDone
   };
 
 
@@ -149,11 +155,37 @@ const gameController = (() =>{
 
 })();
 
-gameController.playRound(4);
-gameController.playRound(8);
-gameController.playRound(0);
-gameController.playRound(2);
-gameController.playRound(6);
-gameController.playRound(4);
-gameController.playRound(3);
-// gameController.playRound(5);
+// gameController.playRound(4);
+// gameController.playRound(8);
+// gameController.playRound(0);
+// gameController.playRound(2);
+// gameController.playRound(6);
+// gameController.playRound(4);
+// gameController.playRound(3);
+// // gameController.playRound(5);
+
+
+
+// -------------------------------------------------
+// DISPLAY CONTROLLER MODULE (NEW)
+// -------------------------------------------------
+const display = (() => {
+
+  const cells = document.querySelectorAll(".cell");
+
+  const changeStatus = (cell, player)=>{
+    cell.textContent=player.marker;
+  }
+
+  cells.forEach((cell)=>{
+    cell.addEventListener("click", (e)=>{
+      if(!gameController.gameDone()){
+        currPlayer = gameController.getActivePlayer();
+        gameController.playRound(Number(e.target.dataset.no));
+        changeStatus(e.target, currPlayer);
+      }
+    });
+  });
+
+
+})();
