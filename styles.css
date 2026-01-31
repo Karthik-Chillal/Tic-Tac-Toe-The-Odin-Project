@@ -12,6 +12,9 @@ body{
   align-items: center;
   font-family: Questrial;
 }
+.heading{
+  padding: 40px 60px;
+}
 
 
 
@@ -35,7 +38,7 @@ body{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3,   1fr);
-  gap: 5px;
+  gap: 4px;
   background-color: white;
 }
 .cell{
@@ -44,7 +47,8 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 6rem;
+  font-size: 7rem;
+  font-weight: bolder;
 }
 
 

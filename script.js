@@ -114,7 +114,7 @@ const gameController = (() =>{
     console.log(`current Player: ${activePlayer.name}`);
     if(isGameOver){
       console.log('Game is over, Reset.');
-      return;
+      return false;
     }
     console.log(`Attempting to place ${activePlayer.marker} at index: ${index}`);
     const moveSuccess = gameBoard.mark(activePlayer.marker, index);
@@ -125,13 +125,13 @@ const gameController = (() =>{
         isGameOver=true;
         console.log(`Winner is : ${winner}`);
         console.log(gameBoard.getBoard());
-        return;
+        return true;
       }
       if(gameBoard.isFull()==true){
         isGameOver=true;
         console.log("It's a tie.");
         console.log(gameBoard.getBoard());
-        return;
+        return true;
       }
       switchPlayerTurn();
       console.log(`Next Player: ${activePlayer.name}`);
@@ -139,13 +139,22 @@ const gameController = (() =>{
     }
     else{
       console.log(`Invalid Move!`);
+
     }
+    return moveSuccess;
   }
+
+  const controlReset = ()=>{
+    isGameOver=false;
+    activePlayer=player1;
+  }
+
   return{
     playRound,
     checkWinner,
     getActivePlayer,
-    gameDone
+    gameDone,
+    controlReset
   };
 
 
@@ -177,15 +186,39 @@ const display = (() => {
     cell.textContent=player.marker;
   }
 
+  const displayReset = ()=>{
+    cells.forEach( (cell)=>{
+      cell.textContent="";
+    });
+  };
+
+
+
+
+
   cells.forEach((cell)=>{
     cell.addEventListener("click", (e)=>{
+      let index = e.target.dataset.no;
       if(!gameController.gameDone()){
         currPlayer = gameController.getActivePlayer();
-        gameController.playRound(Number(e.target.dataset.no));
-        changeStatus(e.target, currPlayer);
+        if(gameController.playRound(index)){
+          changeStatus(e.target, currPlayer);
+        }
+        // gameController.playRound(Number(index));
+      }
+
+
+      else{
+        gameBoard.reset();
+        gameController.controlReset();
+        displayReset();
+        console.log(gameBoard.getBoard());
       }
     });
   });
+
+
+
 
 
 })();
