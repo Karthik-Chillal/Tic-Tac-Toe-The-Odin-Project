@@ -33,7 +33,7 @@ let gameBoard =  (function (){
 
 
   const reset = ()=>{
-    board =['.', '.', '.', '.', '.', '.', '.', '.', '.', ];
+    board.fill('.');
   };
 
 
@@ -90,7 +90,7 @@ const gameController = (() =>{
 
     for (let i = 0; i < winConditions.length; i++) {
       const [a, b, c] = winConditions[i];
-      if (gameArr[a]!='.' && gameArr[a] && gameArr[a] === gameArr[b] && gameArr[a] === gameArr[c]) {
+      if (gameArr[a]!='.' && gameArr[a] === gameArr[b] && gameArr[a] === gameArr[c]) {
         return activePlayer.name;
       }
     }
@@ -200,7 +200,7 @@ const display = (() => {
     cell.addEventListener("click", (e)=>{
       let index = e.target.dataset.no;
       if(!gameController.gameDone()){
-        currPlayer = gameController.getActivePlayer();
+        const currPlayer = gameController.getActivePlayer();
         if(gameController.playRound(index)){
           changeStatus(e.target, currPlayer);
         }
