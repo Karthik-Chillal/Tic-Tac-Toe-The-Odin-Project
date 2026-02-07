@@ -189,13 +189,37 @@ const display = (() => {
 
   const changeStatus = (cell, player)=>{
     cell.textContent=player.marker;
+    if(p1.dataset.marker == player.marker){
+      p1.style.color = "rgb(150,150,150)";
+      p2.style.color = "white";
+    }
+    else{
+      p2.style.color = "rgb(150,150,150)";
+      p1.style.color = "white";
+    }
   }
+
+
+
+
+
+  //Declaring players for displaying curr Player & winner/Loser
+  const p1 = document.querySelector(".p1");
+  const p2 = document.querySelector(".p2");
+  p1.dataset.marker="X";
+  p2.dataset.marker="O";
+
+
+
+
 
   const displayReset = ()=>{
     cells.forEach( (cell)=>{
       cell.textContent="";
       cell.style.color="white";
     });
+    p1.style.color="white";
+    p2.style.color = "rgb(150,150,150)";
   };
   const winDisplay = ()=>{
     cells.forEach((cell)=>{
@@ -209,7 +233,21 @@ const display = (() => {
         cell.style.color = "white";
         i++;
       }
-    })
+    });
+    if(gameController.checkTie()){
+      p1.style.color="rgb(150,150,150)";
+      p2.style.color="rgb(150,150,150)";
+    }
+    else{
+      if(p1.dataset.marker === gameController.getActivePlayer().marker){
+        p1.style.color="white";
+        p2.style.color="rgb(150,150,150)"
+      }
+      else{
+        p2.style.color="white";
+        p1.style.color="rgb(150,150,150)"
+      }
+    }
 
   }
 
@@ -251,3 +289,4 @@ const display = (() => {
 
 
 })();
+

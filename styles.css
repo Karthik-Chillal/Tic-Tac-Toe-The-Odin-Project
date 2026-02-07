@@ -71,10 +71,20 @@ body{
 .chance{
   display: flex;
   gap: 15vw;
-  margin: 10px;
+  margin: 30px;
 }
 .chance div{
-  background-color: aqua;
+  /* background-color: aqua; */
   padding: 10px 40px;
-  font-size: 1.5rem;
+  font-size: 3rem;
+  font-weight: 900;
+}
+.p2{
+  color: rgb(150,150,150);
+}
+.p1::after{
+  content: "X";
+}
+.p2::after{
+  content: "O";
 }
