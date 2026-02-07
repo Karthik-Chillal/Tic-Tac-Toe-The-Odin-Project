@@ -78,8 +78,7 @@ const gameController = (() =>{
 
 
   let gameArr=gameBoard.getBoard();
-
-
+  let winningC=[-1, -1, -1];
 
   const checkWinner = () => {
     const winConditions = [
@@ -91,6 +90,7 @@ const gameController = (() =>{
     for (let i = 0; i < winConditions.length; i++) {
       const [a, b, c] = winConditions[i];
       if (gameArr[a]!='.' && gameArr[a] === gameArr[b] && gameArr[a] === gameArr[c]) {
+        winningC=winConditions[i];
         return activePlayer.name;
       }
     }
@@ -99,14 +99,16 @@ const gameController = (() =>{
 
 
 
-  const checkTie = () => {
-    return gameBoard.isFull();
-  };
-
+  const winCoords = ()=>{
+    return winningC;
+  }
 
   const gameDone = ()=>{
     return isGameOver;
   }
+  const checkTie = () => {
+    return (gameBoard.isFull() && gameController.gameDone());
+  };
 
 
 
@@ -133,6 +135,7 @@ const gameController = (() =>{
         console.log(gameBoard.getBoard());
         return true;
       }
+
       switchPlayerTurn();
       console.log(`Next Player: ${activePlayer.name}`);
       console.log(gameBoard.getBoard());
@@ -154,7 +157,9 @@ const gameController = (() =>{
     checkWinner,
     getActivePlayer,
     gameDone,
-    controlReset
+    controlReset,
+    checkTie,
+    winCoords
   };
 
 
@@ -189,8 +194,24 @@ const display = (() => {
   const displayReset = ()=>{
     cells.forEach( (cell)=>{
       cell.textContent="";
+      cell.style.color="white";
     });
   };
+  const winDisplay = ()=>{
+    cells.forEach((cell)=>{
+      cell.style.color='rgb(150,150,150)';
+    });
+    let i=0;
+    let winC=gameController.winCoords();
+    cells.forEach((cell)=>{
+      let cellid=cell.dataset.no;
+      if(Number(cellid) === winC[i] && i<3){
+        cell.style.color = "white";
+        i++;
+      }
+    })
+
+  }
 
 
 
@@ -204,11 +225,19 @@ const display = (() => {
         if(gameController.playRound(index)){
           changeStatus(e.target, currPlayer);
         }
+
+
+
+        // To display final win conditions.
+        if(gameController.gameDone()){
+          winDisplay();
+        }
         // gameController.playRound(Number(index));
       }
 
 
       else{
+        // winDisplay(gameController.getActivePlayer());
         gameBoard.reset();
         gameController.controlReset();
         displayReset();
